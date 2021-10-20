@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="../css/pcm.css">
+</head>
+
+<body>
+  <!-- PC 리스트 -->
+  <section>
+    <div class="list">
+      <table border="1" cellpadding="15" cellspacing="0" align="center" width="30%">
+        <caption><u>PC 관리 정보 리스트</u></caption>
+        <tr style="color : black; background-color: rgb(158, 158, 158);">
+          <th>Check</th>
+          <th>Status</th>
+          <th>Save Point</th>
+          <th>Username</th>
+          <th>IP address</th>
+        </tr>
+        <tr id="clone_tr" style="text-align: center; display: none;">
+          <td class="pc_checked"><input type="checkbox" hidden></td>
+          <td class="pc_status"></td>
+          <td class="save_point"></td>
+          <td class="pc_username"></td>
+          <td class="pc_ipaddr"></td>
+        </tr>
+        <!-- example -->
+      </table>
+    </div>
+  </section>
+  <button onclick="retry()">새로고침</button>
+  <button onclick="on()">ON</button>
+  <button onclick="off()">OFF</button>
+  <button onclick="alert('준비중입니다.');">SavePoint</button>
+</body>
+<script src="../js/signage.base.js"></script>
+<script>
+  let clone_tr = document.getElementById("clone_tr");
+  console.log(clone_tr);
+  let data = null;
+  function on() {
+    console.log("on");
+    data = new FormData();
+    data.append("func", "pc_on");
+    POST("http://192.168.254.129/index.php", data, function (resp) {
+      console.log(resp.data);
+    });
+  }
+
+  function off() {
+    console.log("off");
+    data = new FormData();
+    data.append("func", "pc_off");
+    POST("http://192.168.254.129/index.php", data, function (resp) {
+      console.log(resp.data);
+    });
+  }
+  let temp = true;
+  function retry() {
+    console.log("retry");
+    data = new FormData();
+    data.append("func", "pc_retry");
+    console.log(clone_tr);
+    POST("http://192.168.254.129/index.php", data, function (resp) {
+      console.log(clone_tr);
+      if (temp == false) return;
+      var cloneDom = clone_tr
+      cloneDom.querySelector('.pc_status').innerHTML = "ON";
+      cloneDom.querySelector('.save_point').innerHTML = "ready";
+      cloneDom.querySelector('.pc_username').innerHTML = "raspbian";
+      cloneDom.querySelector('.pc_ipaddr').innerHTML = "192.168.254.129";
+      cloneDom.querySelector('input').hidden = false;
+      cloneDom.removeAttribute('style');
+      cloneDom.setAttribute('style', 'text-align:center');
+      document.querySelector('table').appendChild(cloneDom);
+      temp = false;
+    });
+  }
+</script>
+
+
+</html>

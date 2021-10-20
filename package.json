@@ -1,0 +1,23 @@
+{
+  "name": "ServerProgram",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hoonvalnom/ServerProgram.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Hoonvalnom/ServerProgram/issues"
+  },
+  "homepage": "https://github.com/Hoonvalnom/ServerProgram#readme",
+  "devDependencies": {
+    "electron": "^11.0.3"
+  }
+}

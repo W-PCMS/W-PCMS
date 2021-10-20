@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PC management Program 0.0.1</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+  <header>PC management Program</header>
+  <section class="dashboard">
+    <div class="left">
+      <div onclick="change_tab(this, 'PC 관리')">
+        🖥️ PC 관리
+      </div>
+      <div onclick="change_tab(this, '확장 기능')">
+        🗄️ &nbsp;확장 기능
+      </div>
+      <div onclick="change_tab(this, '옵션 설정')">
+        ⚙️ 옵션 설정
+      </div>
+    </div>
+    <div class="right">
+      <div class="title">
+        PC 관리
+      </div>
+      <iframe src="./pcm.html" class="innerRight" style="border : none;">
+      </iframe>
+    </div>
+  </section>
+</body>
+<script>
+  let dashboard_left = null;
+  let title = document.querySelector(".title");
+  let inner_right = document.querySelector(".innerRight");
+  function change_tab(obj, str) {
+    dashboard_left = document.querySelectorAll('.left div');
+    console.log(dashboard_left);
+    dashboard_left.forEach(content => {
+      content.removeAttribute("style");
+    });
+    obj.setAttribute("style", "border-right: 10px solid #008999");
+    change_title(str);
+    if (str == 'PC 관리')
+      inner_right.src = './pcm.html';
+    else if (str == '확장 기능')
+      inner_right.src = './ext.html';
+    else
+      inner_right.src = './opt.html';
+  }
+  function change_title(params) {
+    title.innerHTML = params;
+  }
+</script>
+
+</html>
