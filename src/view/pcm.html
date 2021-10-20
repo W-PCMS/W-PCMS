@@ -35,50 +35,74 @@
   <button onclick="retry()">새로고침</button>
   <button onclick="on()">ON</button>
   <button onclick="off()">OFF</button>
-  <button onclick="alert('준비중입니다.');">SavePoint</button>
+  <button onclick="modalOnOff()">SavePoint</button>
+  <div id="savePointModal" class="savePointBox" style="display: none;">
+    <div class="savePoint" style="background-color: rgb(213, 255, 194);" onclick="savePoint1()">시점1</div>
+    <div class="savePoint" onclick="savePoint2()">시점2</div><br>
+    <div style="position: fixed; top :25px; right : 45px; font-size: 32px; font-weight: bold; color : tomato; cursor: pointer;" onclick="modalOnOff(this)">X</div>
+  </div> 
 </body>
 <script src="../js/signage.base.js"></script>
 <script>
+  // savePoint
+  function savePoint1(){
+    if (confirm('시점을 되돌리겠습니까?')) {
+      console.log('test');
+    } else {
+      console.log('test2');
+    }
+  }
+  function savePoint2(){
+    if (confirm('시점을 저장하겠습니까?')) {
+      console.log('test');
+    } else {
+      console.log('test2');
+    }
+  }
+  // modal OnOff
+  function modalOnOff(obj=null){
+    if ( obj == null ){
+      p = document.querySelector("#savePointModal");
+      p.style.display = "flex";
+    } else {
+      obj.parentNode.style.display = "none";
+    }
+  }
+  // PC object ON
+  function on() {
+    setTimeout(() => {
+      let table = document.querySelectorAll(".PCobject");
+      console.log(table);
+      table.forEach(element => {
+        element.querySelector('.pc_status').innerHTML = "ON";
+      });
+    }, 2000);
+  }
+  // PC object OFF
+  function off() {
+    setTimeout(() => {
+      let table = document.querySelectorAll(".PCobject");
+      table.forEach(element => {
+        element.querySelector('.pc_status').innerHTML = "OFF";
+      });
+    }, 2000);
+  }
+  // PC object create
   let clone_tr = document.getElementById("clone_tr");
   console.log(clone_tr);
   let data = null;
-  function on() {
-    console.log("on");
-    data = new FormData();
-    data.append("func", "pc_on");
-    POST("http://192.168.254.129/index.php", data, function (resp) {
-      console.log(resp.data);
-    });
-  }
-
-  function off() {
-    console.log("off");
-    data = new FormData();
-    data.append("func", "pc_off");
-    POST("http://192.168.254.129/index.php", data, function (resp) {
-      console.log(resp.data);
-    });
-  }
-  let temp = true;
-  function retry() {
-    console.log("retry");
-    data = new FormData();
-    data.append("func", "pc_retry");
-    console.log(clone_tr);
-    POST("http://192.168.254.129/index.php", data, function (resp) {
-      console.log(clone_tr);
-      if (temp == false) return;
-      var cloneDom = clone_tr
-      cloneDom.querySelector('.pc_status').innerHTML = "ON";
-      cloneDom.querySelector('.save_point').innerHTML = "ready";
-      cloneDom.querySelector('.pc_username').innerHTML = "raspbian";
-      cloneDom.querySelector('.pc_ipaddr').innerHTML = "192.168.254.129";
-      cloneDom.querySelector('input').hidden = false;
-      cloneDom.removeAttribute('style');
-      cloneDom.setAttribute('style', 'text-align:center');
-      document.querySelector('table').appendChild(cloneDom);
-      temp = false;
-    });
+  for (let i = 1; i <= 10; i++) {
+    var testCloneDom = clone_tr.cloneNode(true);
+    testCloneDom.querySelector('.pc_status').innerHTML = "OFF";
+    testCloneDom.querySelector('.save_point').innerHTML = "test";
+    testCloneDom.querySelector('.pc_username').innerHTML = "406_PC_"+i;
+    testCloneDom.querySelector('.pc_ipaddr').innerHTML = "220.67.115." + (i+90);
+    testCloneDom.querySelector('input').hidden = false;
+    testCloneDom.removeAttribute('style');
+    testCloneDom.removeAttribute('id'); 
+    testCloneDom.setAttribute('class', 'PCobject');
+    testCloneDom.setAttribute('style', 'text-align:center');
+    document.querySelector('table').appendChild(testCloneDom);
   }
 </script>
 
